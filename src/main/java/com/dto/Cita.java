@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.dto;
 
 import java.io.Serializable;
@@ -24,10 +20,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.eclipse.persistence.annotations.AdditionalCriteria;
 
-/**
- *
- * @author luciano
- */
 @Entity
 @AdditionalCriteria("this.estado <> 'eliminado'")
 @Table(name = "cita")
