@@ -40,7 +40,7 @@ public class CategoriaListServlet extends HttpServlet {
 
     } catch (IOException | ServletException theException) {
       System.out.println(theException);
-      System.out.println("Error"+e.toString());
+      System.out.println("Error");
     }
   }
 
