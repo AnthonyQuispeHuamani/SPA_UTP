@@ -63,6 +63,7 @@ public class CategoriaEditServlet extends HttpServlet {
 
     } catch (Exception theException) {
       System.out.println(theException);
+      System.out.println("Error");
     }
   }
 
