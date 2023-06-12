@@ -36,6 +36,7 @@ public class CategoriaDestroyServlet extends HttpServlet {
 
     } catch (Exception theException) {
       System.out.println(theException);
+      System.out.println("Error"+e.toString());
     }
   }
 
