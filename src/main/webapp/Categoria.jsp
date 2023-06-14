@@ -29,13 +29,13 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header no-bd">
-                  <h5 class="modal-title">
+                  <h4 class="modal-title">
                     <span class="fw-mediumbold">
                       Nueva</span> 
                     <span class="fw-light">
                       Categoría
                     </span>
-                  </h5>
+                  </h4>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>

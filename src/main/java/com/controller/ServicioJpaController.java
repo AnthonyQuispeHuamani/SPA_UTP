@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.controller;
 
 import com.controller.exceptions.NonexistentEntityException;
@@ -19,10 +15,6 @@ import com.dto.Servicio;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-/**
- *
- * @author luciano
- */
 public class ServicioJpaController implements Serializable {
 
   public ServicioJpaController(EntityManagerFactory emf) {
