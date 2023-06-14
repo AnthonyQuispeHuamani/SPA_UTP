@@ -138,18 +138,18 @@
                       <p>Persona</p>
                     </a>
                   </li>
-                  <li class="nav-item">
+<!--                  <li class="nav-item">
                     <a href="TelefonoListServlet">
                       <i class="fas fa-phone"></i>
                       <p>Teléfono</p>
                     </a>
-                  </li>
-                  <li class="nav-item">
+                  </li>-->
+<!--                  <li class="nav-item">
                     <a href="DireccionListServlet">
                       <i class="fas fa-map-marked-alt"></i>
                       <p>Dirección</p>
                     </a>
-                  </li>
+                  </li>-->
                   <li class="nav-item">
                     <a href="DistritoListServlet">
                       <i class="fas fa-map-marked-alt"></i>
@@ -192,6 +192,12 @@
                 <ul class="nav nav-primary">
                   
                   <li class="nav-item">
+                    <a href="PersonaListServlet">
+                      <i class="fas fa-receipt"></i>
+                      <p>Perfil</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
                     <a href="ComprobanteListServlet">
                       <i class="fas fa-receipt"></i>
                       <p>Comprobante</p>
@@ -203,24 +209,24 @@
                       <p>Detalle Comprobante</p>
                     </a>
                   </li>
-                  <li class="nav-item">
+<!--                  <li class="nav-item">
                     <a href="TelefonoListServlet">
                       <i class="fas fa-phone"></i>
                       <p>Teléfono</p>
                     </a>
-                  </li>
+                  </li>-->
                   <li class="nav-item">
                     <a href="CitaListServlet">
                       <i class="fas fa-handshake"></i>
                       <p>Cita Programada</p>
                     </a>
                   </li>
-                  <li class="nav-item">
+<!--                  <li class="nav-item">
                     <a href="DireccionListServlet">
                       <i class="fas fa-map-marked-alt"></i>
                       <p>Dirección</p>
                     </a>
-                  </li>
+                  </li>-->
                 </ul>
               </c:when>
               <c:when test="${miPersonaObtenida.tipoPersonaId.descripcion.equalsIgnoreCase('Trabajador')}">
