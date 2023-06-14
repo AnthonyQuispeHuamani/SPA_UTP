@@ -1,7 +1,13 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 package com.servlets;
 
+import com.controller.DistritoJpaController;
 import com.controller.PersonaJpaController;
 import com.controller.TipoPersonaJpaController;
+import com.dto.Distrito;
 import com.dto.Persona;
 import com.dto.TipoPersona;
 import java.io.IOException;
@@ -32,7 +38,7 @@ public class PersonaEditServlet extends HttpServlet {
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
 
-    System.out.println("Entrando a Persona Edit Servlet");
+    System.out.println("--------------------Entrando a Persona Edit Servlet--------------------");
     //Obteniendo todos los parámetros que recibimos de la vista; solo para saber con qué variables llegan
     System.out.println(request.getParameterMap());
     for (Map.Entry<String, String[]> e : request.getParameterMap().entrySet()) {
@@ -45,8 +51,10 @@ public class PersonaEditServlet extends HttpServlet {
 //      Inicialización de objetos
       PersonaJpaController jpacPersona = new PersonaJpaController(emf);
       TipoPersonaJpaController jpacTdPersona = new TipoPersonaJpaController(emf);
+      DistritoJpaController jpacDistrito = new DistritoJpaController(emf);
       Persona oldPersona;
       TipoPersona TdPersona;
+      Distrito distrito;
       BasicPasswordEncryptor passEnc = new BasicPasswordEncryptor();
 
 //      Lo relacionado a la fecha
@@ -54,17 +62,19 @@ public class PersonaEditServlet extends HttpServlet {
       Timestamp ts = new Timestamp(dt.getTime());
       System.out.println(ts);
 
-//      Necesitamos una lista de los Direcciones
-//      DireccionJpaController jpac_xa_lista_de_Direcciones = new DireccionJpaController();
-//      List<Direccion> mi_lista_de_Direcciones = new ArrayList<>();
-//      mi_lista_de_Direcciones = jpac_xa_lista_de_Direcciones.findDireccionEntities();
-
 //      Obteniendo el objeto con foreign key en base al Id que nos da la vista
       TdPersona = jpacTdPersona.findTipoPersona(Long.valueOf(request.getParameter("editTdPersonaId")));
+      distrito = jpacDistrito.findDistrito(Long.valueOf(request.getParameter("editDistritoId")));
 
       //  Ahora necesitamos obtener el objeto a editar para chancar los nuevos valores encima
       oldPersona = jpacPersona.findPersona(Long.valueOf(request.getParameter("editId")));
+
+      String test = request.getParameter("editPassword");
       System.out.println("La Persona obtenida es: " + oldPersona);
+      System.out.println("------------------------------Contrasenia de la vista: " + test);
+      System.out.println("------------------------------Contrasenia de la vista encriptada: " + passEnc.encryptPassword(request.getParameter("editPassword")));
+      System.out.println("------------------------------Contrasenia de la DB: " + oldPersona.getPassword());
+      System.out.println("Comprobación: " + passEnc.checkPassword(test, passEnc.encryptPassword(request.getParameter("editPassword"))));
 
 //      Comparando y asignando nuevos valores al objeto
       if (oldPersona.getNombres() == null || !oldPersona.getNombres().equals(request.getParameter("editNombres"))) {
@@ -76,31 +86,48 @@ public class PersonaEditServlet extends HttpServlet {
       if (oldPersona.getDni() == null || !oldPersona.getDni().equals(request.getParameter("editDni"))) {
         oldPersona.setDni(request.getParameter("editDni"));
       }
+      if (oldPersona.getTelefono() == null || !oldPersona.getTelefono().equals(request.getParameter("editTelefono"))) {
+        oldPersona.setTelefono(request.getParameter("editTelefono"));
+      }
+      if (oldPersona.getDireccion() == null || !oldPersona.getDireccion().equals(request.getParameter("editDireccion"))) {
+        oldPersona.setDireccion(request.getParameter("editDireccion"));
+      }
+      if (oldPersona.getReferencia() == null || !oldPersona.getReferencia().equals(request.getParameter("editReferencia"))) {
+        oldPersona.setReferencia(request.getParameter("editReferencia"));
+      }
       if (oldPersona.getEmail() == null || !oldPersona.getEmail().equals(request.getParameter("editEmail"))) {
         oldPersona.setEmail(request.getParameter("editEmail"));
       }
-      if (oldPersona.getPassword() == null || !passEnc.checkPassword(request.getParameter("editPassword"), oldPersona.getPassword())) {
-        oldPersona.setPassword(passEnc.encryptPassword(request.getParameter("editPassword")));
-      }
-      
-      if (oldPersona.getTurno()== null || !oldPersona.getTurno().equals(request.getParameter("editTurno"))) {
-        oldPersona.setTurno(request.getParameter("editTurno"));
+      if (oldPersona.getPassword() == null) {
+        oldPersona.setPassword(passEnc.encryptPassword("123456"));
+      } else {
+        if (!request.getParameter("editPassword").equalsIgnoreCase("")) {
+          if (!passEnc.checkPassword(request.getParameter("editPassword"), oldPersona.getPassword())) {
+            oldPersona.setPassword(passEnc.encryptPassword(request.getParameter("editPassword")));
+          }
+        }
       }
 
+//            if (oldPersona.getTurno() == null || !oldPersona.getTurno().equals(request.getParameter("editTurno"))) {
+//                oldPersona.setTurno(request.getParameter("editTurno"));
+//            }
       if (!oldPersona.getTipoPersonaId().equals(TdPersona)) {
         oldPersona.setTipoPersonaId(TdPersona);
+      }
+      if (!oldPersona.getDistritoId().equals(distrito)) {
+        oldPersona.setDistritoId(distrito);
       }
       if (oldPersona.getEstado() == null || !oldPersona.getEstado().equals(request.getParameter("editEstado"))) {
         oldPersona.setEstado(request.getParameter("editEstado"));
       }
+
       oldPersona.setUpdatedAt(ts);
 //      oldObject_distrito.setDireccionCollection(mi_lista_de_Direcciones);
 
       System.out.println("La Persona actualizada es: "
-              + oldPersona.getId() + ": " + oldPersona.getNombres() + ": " + oldPersona.getTurno() +": "
+              + oldPersona.getId() + ": " + oldPersona.getNombres() + ": "
               + oldPersona.getEstado() + ": " + oldPersona.getTipoPersonaId().getDescripcion() + ": "
-              + oldPersona.getCreatedAt() + ": " + oldPersona.getUpdatedAt() + ": "
-              + oldPersona.getTelefonoList());
+              + oldPersona.getCreatedAt() + ": " + oldPersona.getUpdatedAt());
 
       jpacPersona.edit(oldPersona);
 
