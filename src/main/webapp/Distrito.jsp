@@ -175,14 +175,6 @@
                                 <input required name="editDescripcion" id="editDescripcion" type="text" class="form-control" value="${tempObjeto.descripcion }">
                               </div>
                               <div class="form-group form-group-default">
-                                <label>Departamento</label>
-                                <select class="form-control" name="editDepaId" id="editDepaId">
-                                  <c:forEach var="tempObjetoDepa" items="${mi_lista_de_departamentos }">
-                                    <option value="${tempObjetoDepa.id }">${tempObjetoDepa.descripcion }</option>
-                                  </c:forEach>
-                                </select>
-                              </div>
-                              <div class="form-group form-group-default">
                                 <label>Select</label>
 
                                 <select class="form-control" name="editEstado" id="editEstado">
