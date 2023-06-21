@@ -210,10 +210,12 @@
     <script src="assets/js/core/jquery.3.2.1.min.js"></script>
     <!-- Datatables -->
     <script src="assets/js/plugin/datatables/datatables.min.js"></script>
+    
+    <!-- Para que se muestren 5 entradas en distrito -->
     <script>
       // Add Row
       $('#add-row').DataTable({
-        "pageLength": 5,
+        "pageLength": 10,
       });
     </script>
 

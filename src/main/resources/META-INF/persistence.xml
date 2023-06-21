@@ -13,6 +13,10 @@
     <class>com.dto.Direccion</class>
     <class>com.dto.Servicio</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    
+    <!-- Modificar credenciales para BD  -->
+    <!-- Para XAMPP: root /  o admin/admin -->
+    <!-- Para MYSQL Workbench: admin / admin  -->
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/spautpmigrations?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="admin"/>
