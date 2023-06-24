@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.servlets;
 
 import com.controller.DistritoJpaController;
@@ -21,7 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.jasypt.util.password.BasicPasswordEncryptor;
+import org.jasypt.util.password.BasicPasswordEncryptor;//libreria password
 
 @WebServlet(name = "PersonaCreateServlet", urlPatterns = {"/PersonaCreateServlet"})
 public class PersonaCreateServlet extends HttpServlet {
@@ -43,31 +39,37 @@ public class PersonaCreateServlet extends HttpServlet {
 //Obteniendo todos los parámetros que recibimos de la vista; solo para saber con qué variables llegan
         System.out.println(request.getParameterMap());
         for (Map.Entry<String, String[]> e : request.getParameterMap().entrySet()) {
-            for (String s : e.getValue()) {
+            for (String s : e.getValue()) { 
                 System.out.println("Key: " + e.getKey() + " ForValue: " + s);
             }
         }
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.spa_utp2023_war_1.0PU");
-            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.spa_utp2023_war_1.0PU"); // Se conecta con nuestra unidad de Persistencia. (la UP es la encargada de realizar la conexión con la BD).
+                                                                                                                            //Construye objetos para el EntityManager.
+
+            //config para BD (package Controllers)
             PersonaJpaController jpacPersona = new PersonaJpaController(emf);
             TipoPersonaJpaController jpacTdP = new TipoPersonaJpaController(emf);
             DistritoJpaController jpacDistrito = new DistritoJpaController(emf);
             
+            //config objetos (package dto) *Para llamar a los metodos Getter & Setters
             Persona miPersona = new Persona();
             TipoPersona miTdP = new TipoPersona();
             Distrito miDistrito = new Distrito();
             
+            //se crean listas de personas y distritos
             List<Persona> personas = new ArrayList<>();
             List<Distrito> distritos = new ArrayList<>();
             
             String contrasenia = null;
-            BasicPasswordEncryptor bpe = new BasicPasswordEncryptor();
+            BasicPasswordEncryptor bpe = new BasicPasswordEncryptor(); // objeto bpe para encriptar los password en credenciales de login.
 
 //      Date dt = new Date();
 //      Timestamp ts = new Timestamp(dt.getTime());
 //      System.out.println(ts);
 //      System.out.println("Tipo de persona: "+request.getParameter("addTdPersonaId"));
+
+            //se consulta si se tiene el dato tipo de persona desde register
             if (request.getParameter("addTdPersonaId") == null) {
                 System.out.println("Tipo de persona vacío, viene del register");
                 miTdP = jpacTdP.findTipoPersona(Long.valueOf(2));
@@ -92,8 +94,8 @@ public class PersonaCreateServlet extends HttpServlet {
             miPersona.setReferencia(request.getParameter("addReferencia"));
             miPersona.setEmail(request.getParameter("addEmail"));
 
-            contrasenia = bpe.encryptPassword(String.valueOf(request.getParameter("addPassword")));
-            miPersona.setPassword(contrasenia);
+            contrasenia = bpe.encryptPassword(String.valueOf(request.getParameter("addPassword"))); // encriptar el password recibido addPassword
+            miPersona.setPassword(contrasenia);//modifica valor de contrasenia ingresada
 
 //      if (request.getParameter("addTdPersonaId").equals("2")) {
 //        miPersona.setTurno("noche");
