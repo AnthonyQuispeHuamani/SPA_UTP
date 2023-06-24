@@ -29,13 +29,13 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header no-bd">
-                  <h4 class="modal-title">
+                  <h5 class="modal-title">
                     <span class="fw-mediumbold">
                       Nueva</span> 
                     <span class="fw-light">
                       Categoría
                     </span>
-                  </h4>
+                  </h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -162,16 +162,16 @@
                             <div class="col-sm-12">
                               <div class="form-group form-group-default">
                                 <label>Id</label>
-                                <input name="editId" id="editId" type="text" class="form-control" value="${tempObjeto.id }" readonly>
+                                <input name="editId" type="text" class="form-control" value="${tempObjeto.id }" readonly>
                               </div>
                               <div class="form-group form-group-default">
                                 <label>Nombre</label>
-                                <input required name="editDescripcion" id="editDescripcion" type="text" class="form-control" value="${tempObjeto.descripcion }">
+                                <input required name="editDescripcion" type="text" class="form-control" value="${tempObjeto.descripcion }">
                               </div>
 
                               <div class="form-group form-group-default">
                                 <label>Select</label>
-                                <select class="form-control" name="editEstado" id="editEstado">
+                                <select class="form-control" name="editEstado">
                                   <option value="activo">Activo</option>
                                   <option value="inactivo">Inactivo</option>
                                   <!--<option value="eliminado">Eliminado</option>-->

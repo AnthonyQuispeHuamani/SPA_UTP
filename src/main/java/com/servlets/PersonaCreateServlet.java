@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 package com.servlets;
 
 import com.controller.DistritoJpaController;
@@ -17,14 +21,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.jasypt.util.password.BasicPasswordEncryptor;//libreria password
+import org.jasypt.util.password.BasicPasswordEncryptor;
 
 @WebServlet(name = "PersonaCreateServlet", urlPatterns = {"/PersonaCreateServlet"})
 public class PersonaCreateServlet extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -39,37 +42,31 @@ public class PersonaCreateServlet extends HttpServlet {
 //Obteniendo todos los parámetros que recibimos de la vista; solo para saber con qué variables llegan
         System.out.println(request.getParameterMap());
         for (Map.Entry<String, String[]> e : request.getParameterMap().entrySet()) {
-            for (String s : e.getValue()) { 
+            for (String s : e.getValue()) {
                 System.out.println("Key: " + e.getKey() + " ForValue: " + s);
             }
         }
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.spa_utp2023_war_1.0PU"); // Se conecta con nuestra unidad de Persistencia. (la UP es la encargada de realizar la conexión con la BD).
-                                                                                                                            //Construye objetos para el EntityManager.
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.spa_utp2023_war_1.0PU");
 
-            //config para BD (package Controllers)
             PersonaJpaController jpacPersona = new PersonaJpaController(emf);
             TipoPersonaJpaController jpacTdP = new TipoPersonaJpaController(emf);
             DistritoJpaController jpacDistrito = new DistritoJpaController(emf);
-            
-            //config objetos (package dto) *Para llamar a los metodos Getter & Setters
+
             Persona miPersona = new Persona();
             TipoPersona miTdP = new TipoPersona();
             Distrito miDistrito = new Distrito();
-            
-            //se crean listas de personas y distritos
+
             List<Persona> personas = new ArrayList<>();
             List<Distrito> distritos = new ArrayList<>();
-            
+
             String contrasenia = null;
-            BasicPasswordEncryptor bpe = new BasicPasswordEncryptor(); // objeto bpe para encriptar los password en credenciales de login.
+            BasicPasswordEncryptor bpe = new BasicPasswordEncryptor();
 
 //      Date dt = new Date();
 //      Timestamp ts = new Timestamp(dt.getTime());
 //      System.out.println(ts);
 //      System.out.println("Tipo de persona: "+request.getParameter("addTdPersonaId"));
-
-            //se consulta si se tiene el dato tipo de persona desde register
             if (request.getParameter("addTdPersonaId") == null) {
                 System.out.println("Tipo de persona vacío, viene del register");
                 miTdP = jpacTdP.findTipoPersona(Long.valueOf(2));
@@ -80,7 +77,7 @@ public class PersonaCreateServlet extends HttpServlet {
                 miTdP = jpacTdP.findTipoPersona(Long.valueOf(request.getParameter("addTdPersonaId")));
                 System.out.println("El Tipo de Persona obtenido fue: " + miTdP.getDescripcion() + " - " + miTdP.getId());
             }
-            
+
             miDistrito = jpacDistrito.findDistrito(Long.valueOf(request.getParameter("addDistritoId")));
 
 //      Llenando los parámetros independientes del tipo de persona obtenidos de la vista
@@ -91,11 +88,17 @@ public class PersonaCreateServlet extends HttpServlet {
             miPersona.setDni(request.getParameter("addDni"));
             miPersona.setTelefono(request.getParameter("addTelefono"));
             miPersona.setDireccion(request.getParameter("addDireccion"));
-            miPersona.setReferencia(request.getParameter("addReferencia"));
+
+            if (request.getParameter("addReferencia").equalsIgnoreCase("")) {
+                miPersona.setReferencia("Ninguna");
+            } else {
+                miPersona.setReferencia(request.getParameter("addReferencia"));
+            }
+            
             miPersona.setEmail(request.getParameter("addEmail"));
 
-            contrasenia = bpe.encryptPassword(String.valueOf(request.getParameter("addPassword"))); // encriptar el password recibido addPassword
-            miPersona.setPassword(contrasenia);//modifica valor de contrasenia ingresada
+            contrasenia = bpe.encryptPassword(String.valueOf(request.getParameter("addPassword")));
+            miPersona.setPassword(contrasenia);
 
 //      if (request.getParameter("addTdPersonaId").equals("2")) {
 //        miPersona.setTurno("noche");
@@ -111,36 +114,6 @@ public class PersonaCreateServlet extends HttpServlet {
 
 //      Llamando al método crear del controlador y pasándole el objeto
             jpacPersona.create(miPersona);
-
-//            personas = jpacPersona.findPersonaEntities();
-//            miDistrito = jpacDistrito.findDistrito(Long.valueOf(request.getParameter("addDistritoId")));
-//
-//            for (Persona per : personas) {
-//                System.out.println("Persona:" + per);
-//                if (per.getUniqueId().equals(miPersona.getUniqueId())) {
-//                    System.out.println("Persona encontrada!");
-
-//                    miTelefono.setUniqueId(String.valueOf(java.util.UUID.randomUUID()));
-//                    miTelefono.setDescripcion(request.getParameter("addTelefono"));
-//                    miTelefono.setPersonaId(per);
-//                    miTelefono.setEstado("activo");
-//          miTelefono.setCreatedAt(ts);
-//          miTelefono.setUpdatedAt(ts);
-
-//                    jpacTelefono.create(miTelefono);
-
-//                    miDireccion.setUniqueId(String.valueOf(java.util.UUID.randomUUID()));
-//                    miDireccion.setDescripcion(request.getParameter("addDireccion"));
-//                    miDireccion.setReferencia(request.getParameter("addReferencia"));
-//                    miDireccion.setDistritoId(miDistrito);
-//                    miDireccion.setPersonaId(per);
-//                    miDireccion.setEstado("activo");
-//          miDireccion.setCreatedAt(ts);
-//          miDireccion.setUpdatedAt(ts);
-
-//                    jpacDireccion.create(miDireccion);
-//                }
-//            }
 
             if (request.getParameter("addTdPersonaId") == null) {
                 request.getRequestDispatcher("/EmailRegistroPersonaServlet").include(request, response);

@@ -19,7 +19,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Acer
+ * @author luciano
  */
 public class CitaJpaController implements Serializable {
 
@@ -42,28 +42,28 @@ public class CitaJpaController implements Serializable {
                 clienteId = em.getReference(clienteId.getClass(), clienteId.getId());
                 cita.setClienteId(clienteId);
             }
-            Servicio servicioId = cita.getServicioId();
-            if (servicioId != null) {
-                servicioId = em.getReference(servicioId.getClass(), servicioId.getId());
-                cita.setServicioId(servicioId);
-            }
             Persona tecnicoId = cita.getTecnicoId();
             if (tecnicoId != null) {
                 tecnicoId = em.getReference(tecnicoId.getClass(), tecnicoId.getId());
                 cita.setTecnicoId(tecnicoId);
+            }
+            Servicio servicioId = cita.getServicioId();
+            if (servicioId != null) {
+                servicioId = em.getReference(servicioId.getClass(), servicioId.getId());
+                cita.setServicioId(servicioId);
             }
             em.persist(cita);
             if (clienteId != null) {
                 clienteId.getCitaList().add(cita);
                 clienteId = em.merge(clienteId);
             }
-            if (servicioId != null) {
-                servicioId.getCitaList().add(cita);
-                servicioId = em.merge(servicioId);
-            }
             if (tecnicoId != null) {
                 tecnicoId.getCitaList().add(cita);
                 tecnicoId = em.merge(tecnicoId);
+            }
+            if (servicioId != null) {
+                servicioId.getCitaList().add(cita);
+                servicioId = em.merge(servicioId);
             }
             em.getTransaction().commit();
         } finally {
@@ -81,21 +81,21 @@ public class CitaJpaController implements Serializable {
             Cita persistentCita = em.find(Cita.class, cita.getId());
             Persona clienteIdOld = persistentCita.getClienteId();
             Persona clienteIdNew = cita.getClienteId();
-            Servicio servicioIdOld = persistentCita.getServicioId();
-            Servicio servicioIdNew = cita.getServicioId();
             Persona tecnicoIdOld = persistentCita.getTecnicoId();
             Persona tecnicoIdNew = cita.getTecnicoId();
+            Servicio servicioIdOld = persistentCita.getServicioId();
+            Servicio servicioIdNew = cita.getServicioId();
             if (clienteIdNew != null) {
                 clienteIdNew = em.getReference(clienteIdNew.getClass(), clienteIdNew.getId());
                 cita.setClienteId(clienteIdNew);
             }
-            if (servicioIdNew != null) {
-                servicioIdNew = em.getReference(servicioIdNew.getClass(), servicioIdNew.getId());
-                cita.setServicioId(servicioIdNew);
-            }
             if (tecnicoIdNew != null) {
                 tecnicoIdNew = em.getReference(tecnicoIdNew.getClass(), tecnicoIdNew.getId());
                 cita.setTecnicoId(tecnicoIdNew);
+            }
+            if (servicioIdNew != null) {
+                servicioIdNew = em.getReference(servicioIdNew.getClass(), servicioIdNew.getId());
+                cita.setServicioId(servicioIdNew);
             }
             cita = em.merge(cita);
             if (clienteIdOld != null && !clienteIdOld.equals(clienteIdNew)) {
@@ -106,14 +106,6 @@ public class CitaJpaController implements Serializable {
                 clienteIdNew.getCitaList().add(cita);
                 clienteIdNew = em.merge(clienteIdNew);
             }
-            if (servicioIdOld != null && !servicioIdOld.equals(servicioIdNew)) {
-                servicioIdOld.getCitaList().remove(cita);
-                servicioIdOld = em.merge(servicioIdOld);
-            }
-            if (servicioIdNew != null && !servicioIdNew.equals(servicioIdOld)) {
-                servicioIdNew.getCitaList().add(cita);
-                servicioIdNew = em.merge(servicioIdNew);
-            }
             if (tecnicoIdOld != null && !tecnicoIdOld.equals(tecnicoIdNew)) {
                 tecnicoIdOld.getCitaList().remove(cita);
                 tecnicoIdOld = em.merge(tecnicoIdOld);
@@ -121,6 +113,14 @@ public class CitaJpaController implements Serializable {
             if (tecnicoIdNew != null && !tecnicoIdNew.equals(tecnicoIdOld)) {
                 tecnicoIdNew.getCitaList().add(cita);
                 tecnicoIdNew = em.merge(tecnicoIdNew);
+            }
+            if (servicioIdOld != null && !servicioIdOld.equals(servicioIdNew)) {
+                servicioIdOld.getCitaList().remove(cita);
+                servicioIdOld = em.merge(servicioIdOld);
+            }
+            if (servicioIdNew != null && !servicioIdNew.equals(servicioIdOld)) {
+                servicioIdNew.getCitaList().add(cita);
+                servicioIdNew = em.merge(servicioIdNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -156,15 +156,15 @@ public class CitaJpaController implements Serializable {
                 clienteId.getCitaList().remove(cita);
                 clienteId = em.merge(clienteId);
             }
-            Servicio servicioId = cita.getServicioId();
-            if (servicioId != null) {
-                servicioId.getCitaList().remove(cita);
-                servicioId = em.merge(servicioId);
-            }
             Persona tecnicoId = cita.getTecnicoId();
             if (tecnicoId != null) {
                 tecnicoId.getCitaList().remove(cita);
                 tecnicoId = em.merge(tecnicoId);
+            }
+            Servicio servicioId = cita.getServicioId();
+            if (servicioId != null) {
+                servicioId.getCitaList().remove(cita);
+                servicioId = em.merge(servicioId);
             }
             em.remove(cita);
             em.getTransaction().commit();

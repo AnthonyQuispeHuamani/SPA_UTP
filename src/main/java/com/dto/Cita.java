@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Acer
+ * @author luciano
  */
 @Entity
 @Table(name = "cita")
@@ -67,12 +67,12 @@ public class Cita implements Serializable {
     @JoinColumn(name = "cliente_id", referencedColumnName = "id")
     @ManyToOne
     private Persona clienteId;
-    @JoinColumn(name = "servicio_id", referencedColumnName = "id")
-    @ManyToOne
-    private Servicio servicioId;
     @JoinColumn(name = "tecnico_id", referencedColumnName = "id")
     @ManyToOne
     private Persona tecnicoId;
+    @JoinColumn(name = "servicio_id", referencedColumnName = "id")
+    @ManyToOne
+    private Servicio servicioId;
 
     public Cita() {
     }
@@ -153,20 +153,20 @@ public class Cita implements Serializable {
         this.clienteId = clienteId;
     }
 
-    public Servicio getServicioId() {
-        return servicioId;
-    }
-
-    public void setServicioId(Servicio servicioId) {
-        this.servicioId = servicioId;
-    }
-
     public Persona getTecnicoId() {
         return tecnicoId;
     }
 
     public void setTecnicoId(Persona tecnicoId) {
         this.tecnicoId = tecnicoId;
+    }
+
+    public Servicio getServicioId() {
+        return servicioId;
+    }
+
+    public void setServicioId(Servicio servicioId) {
+        this.servicioId = servicioId;
     }
 
     @Override

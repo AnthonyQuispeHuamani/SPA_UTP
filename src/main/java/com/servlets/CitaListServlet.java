@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 package com.servlets;
 
 import com.controller.CitaJpaController;
@@ -7,6 +11,8 @@ import com.dto.Cita;
 import com.dto.Persona;
 import com.dto.Servicio;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
@@ -49,8 +55,12 @@ public class CitaListServlet extends HttpServlet {
       personas = jpacPersona.findPersonaEntities();
       servicios = jpacServicio.findServicioEntities();
 
+      
+      DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+      
       for (Cita c : citas) {
-        System.out.println(c.getId() + ":" + c.getServicioId().getDetalles()+ ":" + c.getFecha().getDate()+"/"+c.getFecha().getMonth());
+        System.out.println(c.getId() + ":" + c.getServicioId().getDetalles()+ ":" +
+                c.getFecha().getDate()+"/"+c.getFecha().toString() +"-----"+ "Fecha: " + df.format(c.getFecha()));
       }
       for (Persona p : personas) {
         System.out.println(p.getId() + " - " + p.getNombres());

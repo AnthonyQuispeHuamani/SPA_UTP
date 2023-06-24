@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Acer
+ * @author luciano
  */
 @Entity
 @Table(name = "comprobante")
